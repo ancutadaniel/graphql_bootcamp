@@ -1,4 +1,5 @@
 # Type definitions (schema) - 3 types : Query, Mutation, Subscription
+# ======================  Queries  ======================
 type Query {
   user: User!
   post: Post!
@@ -32,6 +33,7 @@ type Comment {
   post: Post!
 }
 
+# ======================  Mutations  ======================
 type Mutation {
   createUser(data: CreateUserInput!): User!
   deleteUser(id: ID!): User!
@@ -77,4 +79,26 @@ input CreateCommentInput {
 
 input UpdateCommentInput {
   text: String
+}
+
+# ======================  Subscriptions  ======================
+type Subscription {
+  post: PostSubscriptionPayload!
+  comment(postId: ID!): CommentSubscriptionPayload!
+}
+
+type PostSubscriptionPayload {
+  mutation: MutationType!
+  data: Post!
+}
+
+type CommentSubscriptionPayload {
+  mutation: MutationType!
+  data: Comment!
+}
+
+enum MutationType {
+  CREATED
+  UPDATED
+  DELETED
 }
